@@ -1,0 +1,78 @@
+Web Scraping:
+==========
+# Some website owners doesn't want anybody to scrape their website.
+# So, the following example is only for educational purpose.
+# https://benbernardblog.com/web-scraping-and-crawling-are-perfectly-legal-right/
+"""
+1. Allow full access
+User-agent: *
+Disallow:
+2. Block all access
+User-agent: *
+Disallow: /
+3. Partial access
+User-agent: *
+Disallow: /folder/
+User-agent: *
+Disallow: /file.html
+"""
+# Install the required packages
+import os
+os.system("pip install requests")
+os.system("pip install html5lib")
+os.system("pip install bs4")
+import requests
+from bs4 import BeautifulSoup
+#url="https://thephotographersblog.com/"
+#url="https://en.wikipedia.org/wiki/Main_Page"
+#url="https://www.python.org/"
+#url="https://www.facebook.com/"
+url="https://www.photographyblog.com/"
+# Obtain the html page from the site.
+r=requests.get(url)
+r.status_code # A status code of 200 means that the site is safe to web scrape.
+htmlcontent=r.content
+# Parse the html page
+soup=BeautifulSoup(htmlcontent,'html.parser')
+#print(soup.prettify)
+#Now, lets do the html tree traversal
+title=soup.title
+print(title)
+print(type(title))
+print(type(title.string))
+paragraphs=soup.find_all('p')
+print(type(paragraphs))
+anchors=soup.find_all('a')
+print(type(anchors))
+
+#Create a set with the name all_links.
+all_links=set()
+
+#Search the links and add them to the set.
+for link in anchors:
+	if link.get('href')!='#':
+		all_links.add(link.get('href'))
+
+print(type(all_links))
+for link in all_links:
+	print(link)
+#--------------------------------------------------------------------
+new_string="\n"
+for link in all_links:
+new_string+=str(link)+"\n"
+file=open('all_links_file.txt','w')
+file.write(new_string)
+file.close()
+import re
+pattern = r'^https'
+
+file=open('final_links.txt','w')
+
+for i,line in enumerate(open('all_links_file.txt')):
+	for match in re.finditer(pattern, line):
+		file.write(line)
+
+file.close()
+import os
+os.remove("all_links_file.txt")
+#--------------------------------------------------------------------

@@ -1,0 +1,234 @@
+Regular Expressions:
+====================
+Regular Expressions are also called as Regex.
+A Regular Expression, is a sequence of 'Control characters' that forms a search pattern.
+It can be used to check if a 'string' contains the specified search pattern.
+
+The Regular Expression search(or match or findall or split) function has 3 arguments -- 1.pattern, 2.string and 3.flags
+
+pattern is the regular expression to be matched.
+string would be searched to match with the pattern.
+flags control various aspects of matching like ignore-case, ignore-whitespaces.. etc.
+
+The match or search function returns a 'Match object' on success, 'None' on failure.
+
+There are some 14 Regular Expression Control Characters -->   +   ?   .   *   ^   $   (   )   [   ]   {   }   |   \  
++     -->   Match 1 or more
+?     -->   Match 0 or 1
+.     -->   Match any character
+*     -->   Match 0 or more
+^     -->   Match the beginning of the string
+$     -->   Match the end of the string
+( )   -->   Groups regular expressions and remembers matched text.
+[ ]   -->   range e.g., [a-z] or [A-Z] or [0-9]
+{ }   -->   Expecting a value. e.g., {3} or {1,4}
+|     -->   Match either or
+\     -->   Backlash
+
+We can escape a control character by preceding it with a backslash.
+
+White Space Characters:
+\n    --> New line
+\s    --> Space
+\t    --> Tab
+
+#-------------------------------------------------------------------------------------------------------------------------
+#  \d -- Matches any decimal digit; this is equivalent to the class [0-9].
+import re
+string = "My pincode is 500011"
+pattern = r"\d"                              # r" " indicates its a raw string.
+fa_result = re.findall(pattern,string)
+print(fa_result)
+#-------------------------------------------------------------------------------------------------------------------------
+# \D -- Matches any non-digit character; this is equivalent to the class [^0-9].
+import re
+string = "Welcome to python !"
+pattern = r"\D"
+fa_result = re.findall(pattern,string)
+print(fa_result)
+#-------------------------------------------------------------------------------------------------------------------------
+# The following code will find the no.of occurences of the word 'parrots' in the given string and puts them into a list.
+import re
+string = """
+Many parrots can imitate sounds.
+Parrots are among the most intelligent birds.
+Parrots are the only birds that can eat with their feet. 
+Some parrots can live for over 80 years. 
+Parrots have been kept as pets for 3,000 years
+"""
+pattern = r"parrots"
+fa_result = re.findall(pattern,string,re.I)
+print(fa_result)
+#-------------------------------------------------------------------------------------------------------------------------
+import re
+string = "Snake makes hiss, hisss, hissss sounds."
+pattern = r"his*"
+fa_result = re.findall(pattern,string,re.I)
+print(fa_result)
+#-------------------------------------------------------------------------------------------------------------------------
+import re
+string = "Snake makes hiss, hisss, hissss sounds."
+pattern = r"his{3,4}"
+fa_result = re.findall(pattern,string,re.I)
+print(fa_result)
+#-------------------------------------------------------------------------------------------------------------------------
+import re
+string = "Snake makes hiss, hisss, hissss sounds."
+pattern = r"Snake|sounds|rats"
+fa_result = re.findall(pattern,string,re.I)
+print(fa_result)
+#-------------------------------------------------------------------------------------------------------------------------
+import re
+string = "Somebody is looking for Bobby in the lobby."
+pattern = r"[Bl]obby"
+fa_result = re.findall(pattern,string)
+print(fa_result)
+#-------------------------------------------------------------------------------------------------------------------------
+import re
+string = "John fumbles bobb bobba bobby when calling bobby."
+pattern = r"bobby?"                                                # letter y is optional.
+fa_result = re.findall(pattern,string)
+print(fa_result)
+#-------------------------------------------------------------------------------------------------------------------------
+# \w -- Matches any alphanumeric character; this is equivalent to the class [a-zA-Z0-9_].
+import re
+string = "baby bags bait bake ball balm band bank beam bean beep bees bell -- these are some four letter words."
+pattern = r"ba\w\w"
+fa_result = re.findall(pattern,string)
+print(fa_result)
+#-------------------------------------------------------------------------------------------------------------------------
+import re
+string = "pap pep pip pop pup dad did dud -- these are some palindrome words"
+pattern = r"d.d"
+fa_result = re.findall(pattern,string)
+print(fa_result)
+#-------------------------------------------------------------------------------------------------------------------------
+import re
+string = """ 
+Jagadish is 37 years old and Rohit is 28 years old.
+Bhavani is 27 years old and Anil is 108 years old.
+""" 
+pattern1 = r'\d{1,3}'
+pattern2 = r'[A-Z][a-z]*'
+ages = re.findall(pattern1, string)
+names = re.findall(pattern2, string)
+print(ages)
+print(names)
+
+nameageDict = {}
+i = 0
+
+for j in names:
+  nameageDict[j] = ages[i]
+  i += 1
+
+print(nameageDict)
+#-------------------------------------------------------------------------------------------------------------------------
+# Search -- Search for a pattern in a string
+#===========================================
+import re
+string = 'Python is easy to learn.'
+pattern = r'easy'                          
+s_result = re.search(pattern, string)
+print(s_result) 
+print(s_result.group())
+#-------------------------------------------------------------------------------------------------------------------------
+import re
+string = 'Python is easy to learn.'
+pattern = r'^Python'                          
+s_result = re.search(pattern, string)
+print(s_result) 
+print(s_result.group())
+#-------------------------------------------------------------------------------------------------------------------------
+import re
+string = 'Python is easy to learn.'
+pattern = r'^PyThoN'                          
+s_result = re.search(pattern, string, re.I)
+print(s_result) 
+print(s_result.group())
+#-------------------------------------------------------------------------------------------------------------------------
+import re
+string = 'Python is easy to learn.'
+pattern = r'learn.$'                          
+s_result = re.search(pattern, string)
+print(s_result) 
+print(s_result.group())
+#-------------------------------------------------------------------------------------------------------------------------
+import re
+string = 'Python is easy to learn.'
+pattern = r'LEArn.$'                          
+s_result = re.search(pattern, string, re.I)
+print(s_result) 
+print(s_result.group())
+
+#-------------------------------------------------------------------------------------------------------------------------
+import re
+string = 'rohitb9hyd@gmail.com'
+pattern = r'(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z.]+$)'
+s_result = re.search(pattern, string)
+print(s_result) 
+print(s_result.group())
+#--------------------------------
+# Recipient name(rohitb9hyd)                            -- a-z A-Z 0-9  period.  hyphen-  underscore_  plus+ 
+# Domain name(@gmail, @hotmail, @yahoo)                 -- a-z A-Z 0-9  period.  hyphen-
+# Top-level domain(.co.in , .com , .org , .net  )       -- a-z A-Z      period.
+#-------------------------------------------------------------------------------------------------------------------------
+# enumerate(iterable, start=0)
+# Iterable --> any object that supports iteration
+# Start --> the index value from which the counter is to be started, by default it is 0 
+
+import os
+os.chdir("C:\\Users\\SHANKARA\\Desktop\\")
+file=open("user_info.txt","w")
+file.write("Name -- Rohit\nId -- 45678\nemail -- rohit@gmail.com\n")
+file.write("Name -- Srikanth\nId -- 34567\nemail -- srikanth@yahoo.com\n")
+file.write("Name -- Soma\nId -- 76548\nemail -- soma@msn.com")
+file.close()
+
+import re
+pattern = r'([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z.]+$)'
+
+for i,line in enumerate(open('user_info.txt')):
+  for match in re.finditer(pattern, line):
+    print("Found a match on line.no:",i+1, match.groups())
+
+#-------------------------------------------------------------------------------------------------------------------------
+
+# Difference between "Regex search" and "Regex match":
+#=====================================================
+# Search will search for a pattern in the entire string. Where as, Match will only look at the first word of the string. 
+# See the below example.
+#--------------------------------
+import re
+string = 'Python is easy to learn.'
+pattern = r'easy'                          # This should result in error.       
+m_result = re.match(pattern, string)
+print(m_result)
+print(m_result.group())
+#-------
+import re
+string = 'Python is easy to learn.'
+pattern = r'Python'                          
+m_result = re.match(pattern, string)
+print(m_result)
+print(m_result.group())
+#-------------------------------------------------------------------------------------------------------------------------
+# Split -- Delete a pattern and list remaining.
+#==============================================
+# word character means -- a-z,A-Z,0-9 
+import re
+string = "pap pep pip pop pup dad did dud -- these are some palindrome words"
+pattern = r'd\w+'            # one or more word characters after letter 'd' should be cut and remaining listed. 
+sp_result = re.split(pattern,string)
+print(sp_result)
+
+#-------------------------------------------------------------------------------------------------------------------------
+# Sub -- Substitute -- Find a pattern and replace it with another pattern.
+#=========================================================================
+import re
+string = 'seenu@pvc.com and rahul@pqr.com'
+find_pattern = r'@\w+'
+replace_pattern = r'@xyz'                          
+su_result = re.sub(find_pattern, replace_pattern, string)
+print(su_result) 
+#-------------------------------------------------------------------------------------------------------------------------

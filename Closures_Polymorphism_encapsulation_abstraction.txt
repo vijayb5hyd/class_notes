@@ -1,0 +1,235 @@
+
+###########################################################################
+
+# Closures
+# ========
+# A Closure is a function object that remembers values in enclosing scopes 
+# even if they are not present in memory. 
+# msg is not defined in inside function and it takes it from outside function. 
+# Hence msg becomes a nonlocal variable.
+
+msg = 'Welcome'
+def function_outside():
+  msg = 'Hi'
+  def function_inside():              # Nested Funtion.
+      print (msg)                              # Enclosing Scope.
+  function_inside()                   
+  print (msg)
+
+function_outside()
+print(msg)
+# output
+# Hi
+# Hi
+# Welcome
+############################################################################
+msg = 'Welcome'
+def function_outside():
+  msg = 'Hi'
+  def function_inside():
+      msg = 'Hello'                      # msg is a local variable
+      print (msg)
+  function_inside()
+  print (msg)
+
+function_outside()
+print(msg)
+# output
+# Hello 
+# Hi
+# Welcome
+
+############################################################################
+
+msg = 'Welcome'
+def function_outside():
+  msg = 'Hi'
+  def function_inside():
+      nonlocal msg                       # msg is defined as nonlocal variable
+      msg = 'Hello'
+      print (msg)
+  function_inside()
+  print (msg)
+
+function_outside()
+print(msg)
+# output
+# Hello
+# Hello 
+# Welcome
+
+############################################################################
+msg = 'Welcome'
+def function_outside():
+  msg = 'Hi'
+  def function_inside():
+      global msg                       # msg is defined as global variable
+      msg = 'Hello'
+      print (msg)
+  function_inside()
+  print (msg)
+
+function_outside()
+print(msg)
+# output
+# Hello
+# Hi
+# Hello
+
+############################################################
+############################################################################
+# Polymorphism
+
+class India(): 
+    def capital(self): 
+        print("New Delhi is the capital of India.") 
+  
+    def language(self): 
+        print("Hindi the primary language of India.") 
+  
+    def category(self): 
+        print("India is a developing country.") 
+  
+
+class USA(): 
+    def capital(self): 
+        print("Washington, D.C. is the capital of USA.") 
+  
+    def language(self): 
+        print("English is the primary language of USA.") 
+  
+    def category(self): 
+        print("USA is a developed country.") 
+  
+
+obj_ind = India() 
+obj_usa = USA() 
+
+#Implement polymorphism with a for loop
+#=========================
+for country in (obj_ind, obj_usa): 
+    country.capital() 
+    country.language() 
+    country.category() 
+
+
+#Implement polymorphism with a function
+#=================================
+def func(country): 
+    country.capital() 
+    country.language() 
+    country.category() 
+
+func(obj_ind)
+func(obj_usa)
+
+#Polymorphism with Inheritance and Method Overriding
+#=============================================
+class Bird: 
+  def intro(self): 
+    print("There are many types of birds.") 
+      
+  def flight(self): 
+    print("Most of the birds can fly but some cannot.") 
+    
+
+class sparrow(Bird): 
+  def flight(self): 
+    print("Sparrows can fly.") 
+      
+
+class ostrich(Bird): 
+  def flight(self): 
+    print("Ostriches cannot fly.") 
+      
+
+obj_bird = Bird() 
+obj_spr = sparrow() 
+obj_ost = ostrich() 
+  
+obj_bird.intro() 
+obj_bird.flight() 
+  
+obj_spr.intro() 
+obj_spr.flight() 
+  
+obj_ost.intro() 
+obj_ost.flight() 
+
+############################################################
+############################################################
+############################################################
+
+############################################################################
+# Python Encapsulation
+# ==================
+class Car:
+    __maxspeed = 0
+    __name = ""
+    def __init__(self):
+        self.__progressIndicator()
+        self.__maxspeed = 110
+        self.__name = "Lighting McQueen"
+    def drive(self):
+        print(str(self.__name)+' is speeding at ' + str(self.__maxspeed)+'KMPH')
+    def setMaxSpeed(self,speed):
+        self.__maxspeed = speed
+    def __progressIndicator(self):
+        print('Initialising car. Done !')
+
+
+redcar = Car()
+redcar.__progressIndicator()       # This private method is not accesible from object.
+
+redcar.drive()
+
+redcar.__maxspeed = 10            # This variable will not change as its a private variable
+redcar.__name = "Jackson Storm"      # This variable will not change as its a private variable
+
+redcar.setMaxSpeed(220)
+redcar.drive()
+
+
+"""
+# Encapsulation prevents us from accessing private variables and methods accidentally. 
+but not intentionally. 
+
+# redcar._Car__progressIndicator()   
+# __progressIndicator() private method is accesible from the object by adding  _Car in the 
+begining. 
+
+redcar._Car__maxspeed = 10
+redcar.drive()
+"""
+############################################################################
+# Abstraction
+#==========
+from abc import ABC, abstractmethod
+class ParentCTP(ABC):                                     #Parent_Click_To_Pay
+    def print_slip(self, amount):
+        print('Purchase of amount- ', amount)
+    @abstractmethod
+    def payment(self, amount):
+        pass
+
+class ChildCCP(ParentCTP):                               #Child_Credit_Card_Payment
+    def payment(self, amount):
+        print('Credit card payment of- ', amount)
+
+class ChildMWP(ParentCTP):                               #Child_Mobile_Wallet_Payment
+    def payment(self, amount):
+        print('Mobile wallet payment of- ', amount)
+
+obj = ChildCCP()
+obj.payment(100)
+obj.print_slip(100)
+#print(isinstance(obj, ParentCTP))
+
+obj = ChildMWP()
+obj.payment(200)
+obj.print_slip(200)
+#print(isinstance(obj, ParentCTP))
+
+
+
+

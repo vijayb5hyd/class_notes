@@ -1,0 +1,113 @@
+
+CGI Programming:
+===============
+when a user fills out a form on a Web page and sends it in, it usually needs to be processed by an application program. The Web server typically passes the form information to a small application program that processes the data and may send back a confirmation message. This method or convention for passing data back and forth between the server and the application is called the common gateway interface (CGI).
+
+Install apache2:
+----------------
+sudo apt install apache2 -y
+sudo service apache2 restart
+Now, open a browser and type 127.0.0.1 and you should see the default page.
+
+Load and Enable the CGI Module:
+-------------------------------
+cd /etc/apache2/mods-enabled/
+sudo ln -s ../mods-available/cgi.load cgi.load
+sudo a2enmod cgi
+
+# Configure CGI options:
+# ----------------------
+Edit    sudo nano /etc/apache2/sites-enabled/000-default.conf   as below
+DocumentRoot /var/www/
+<Directory /var/www/>
+        Options ExecCGI Indexes FollowSymLinks MultiViews
+        AllowOverride None
+        Order allow,deny
+        allow from all
+        AddHandler cgi-script .py
+</Directory>
+------------------------------------------------------------------------------------------------------------------------
+Indexes               
+-- refers to index.html
+
+FollowSymLinks        
+-- enables you to have a symlink in your webroot pointing to some other file/dir. With this disabled, Apache will refuse to follow such symlink.
+
+MultiViews            
+-- If a web client's request is not found, the server chooses the best match to the client's requirements and replies.
+
+AllowOverride None    
+-- Before returning the document /usr/local/web/index.html, the server will read /.acl, /usr/.acl, /usr/local/.acl and /usr/local/web/.acl for directives unless they have been disabled with "AllowOverride None"
+------------------------------------------------------------------------------------------------------------------------
+Create a CGI script and set permissions:
+----------------------------------------
+sudo touch /usr/lib/cgi-bin/pythoncgi.py
+sudo chmod +x /usr/lib/cgi-bin/pythoncgi.py
+Edit   sudo nano /usr/lib/cgi-bin/pythoncgi.py  as below
+----------------------------------------------------------------
+#!/usr/bin/python3
+# Import modules for CGI handling
+import cgi, cgitb
+
+# Create instance of FieldStorage
+form = cgi.FieldStorage()
+
+# Get data from fields
+first_name = form.getvalue('first_name')
+last_name  = form.getvalue('last_name')
+
+print("Content-type:text/html\r\n\r\n")
+print("<html>")
+print("<head>")
+print("<title>Hello  -  CGI Program</title>")
+print("</head>")
+print("<body>")
+print("<h2>Hello %s %s !</h2>" % (first_name, last_name))
+print("<h2>This is an example CGI script.</h2>")
+print("</body>")
+print("</html>")
+----------------------------------------------------------------
+\r     (Carriage Return)   -->   moves the cursor to the beginning of the line without advancing to the next line.
+\n     (Line Feed)         -->   moves the cursor down to the next line without returning to the beginning of the line —
+                                 In a *nix environment \n moves to the beginning of the line.
+\r\n   (End Of Line)       -->   a combination of \r and \n.
+----------------------------------------------------------------
+Create a HTML file with form tag:
+--------------------------------
+sudo rm -rf /var/www/html
+sudo nano /var/www/index.html
+Edit  /var/www/index.html as below
+----------------------------------------------------------------
+<form action = "/cgi-bin/pythoncgi.py" method = "get">
+First Name: <input type = "text" name = "first_name">  <br />
+
+Last Name: <input type = "text" name = "last_name" />
+<input type = "submit" value = "Submit" />
+</form>
+----------------------------------------------------------------
+The Action Attribute under form tag:
+------------------------------------
+The action attribute defines the action to be performed when the form is submitted.
+Normally, the form data is sent to a web page on the server when the user clicks on the submit button.
+
+The action attribute let's the application server know the name and location of the CGI script. 
+
+Restart the apache2 service:
+---------------------------- 
+sudo service apache2 restart
+========================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

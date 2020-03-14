@@ -1,0 +1,103 @@
+                                                                    Django Web Framework:
+                                                              ===================
+visit
+https://www.djangoproject.com/
+
+Intro:
+====
+Django is a Python based Web Framework used for easy web development.
+
+History:
+======
+Django was originally developed at the web department of  "Lawrence Journal-World
+Newspapers, Kansas, USA.
+
+Around Sept, 2003. Developers Adrian Holovaty and Simon Willison developed Django Web Framework.
+
+The framework was named after guitarist Django Reinhardt.
+
+Django is now run by an international team of volunteers. DSF.
+
+Features:
+=======
+#######################################
+Fully loaded --
+Django takes care of user authentication, content administration, site maps, RSS feeds,
+and many more tasks, right out of the box.
+#######################################
+Fast Apps -- Designed to complete the app as quickly as possible.
+#######################################
+Open Source -- Free and Open Source
+#######################################
+Secure -- Cross site request forgery (CSRF) Technique, HTTPS/SSL Protocols
+#######################################
+Scalable --
+Sites built on Django have survived traffic spikes of over 50 thousand hits per second.
+#######################################
+Versatile --
+Django is used to build all sorts of things like content management systems, social networks and scientific computing platforms.
+#######################################
+
+Sites built using Django
+===============
+Bitbucket, Instagram, Mozilla Firefox, Pinterest, YouTube, DropBox, NASA, The Washington Post, National Geographic.  
+
+
+##### To verify the python version
+python --version
+
+##### To install django
+pip install django
+
+##### To verify the django version
+django --version
+
+##### To start a project
+django-admin startproject <project_name> .
+
+##### To start an app
+python manage.py startapp <app_name>
+
+##### By default django uses sqlite3 database.
+##### If you create/edit any models. Changes to those models should be migrated.
+python manage.py makemigrations
+python manage.py migrate
+
+##### To create a super user account
+python manage.py createsuperuser
+
+##### To start the development server
+python manage.py runserver
+
+##############################################
+##### Add your app name to INSTALLED_APPS list from settings.py
+
+INSTALLED_APPS = [
+    ...
+    'myapp',
+]
+
+##############################################
+##### Templates
+##### Put your .html files into a directory called 'templates'
+##### This templates folder should be under your BASE_DIR (proj1)
+##### Now update your TEMPLATES list from settings.py
+
+'DIRS': [os.path.join(BASE_DIR, 'templates'),],
+##############################################
+##### Static files (CSS, JavaScript, Images, Videos)
+##### Put your Static Files into a directory called 'static'
+##### This static folder should be under your BASE_DIR (proj1)
+##### Now update your settings.py
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+##### To collect the static files into static root directory
+python manage.py collectstatic
+##############################################
+
+
+
+
+ 

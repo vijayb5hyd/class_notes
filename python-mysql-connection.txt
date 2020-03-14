@@ -1,0 +1,22 @@
+import os
+
+os.system('pip install mysql-connector')
+
+import mysql.connector as mdb
+
+mydbcon = mdb.connect(host='localhost',user='testuser',password='testpassword')
+
+mycur = mydbcon.cursor()
+
+mycur.execute('create database events;')
+mycur.execute('use events;')
+
+mycur.execute('create table potluck(ID int not null primary key auto_increment, NAME varchar(30), FOOD varchar(30), CONFIRM char(1), SIGN_UP date);')
+
+mycur.execute('insert into potluck(ID,NAME,FOOD,CONFIRM,SIGN_UP) values(NULL,"NAVEEN","PRAWNS","Y","2020-03-02");')
+mycur.execute('insert into potluck(ID,NAME,FOOD,CONFIRM,SIGN_UP) values(NULL,"DHANUNJAY","BIRYANI","Y","2020-03-02");')
+mycur.execute('insert into potluck(ID,NAME,FOOD,CONFIRM,SIGN_UP) values(NULL,"VIJAY","ICE_CREAMS","Y","2020-03-02");')
+
+mydbcon.commit()
+mydbcon.close()
+
